@@ -1,0 +1,58 @@
+WITH lvl1 AS (
+    SELECT cre0e_okr_objective_and_keyresult_hierarchyid AS id,
+           ROW_NUMBER() OVER (ORDER BY createdon,
+                                       cre0e_okr_objective_and_keyresult_hierarchyid) AS rn
+    FROM dbo.cre0e_okr_objective_and_keyresult_hierarchy
+    WHERE statecode = 0
+      AND cre0e_objectivetype = 141160000
+)
+UPDATE h
+SET h.cr446_sciezka = RIGHT('000' + CAST(c.rn AS varchar(10)), 3),
+    h.cr446_poziom  = 1
+FROM dbo.cre0e_okr_objective_and_keyresult_hierarchy h
+INNER JOIN lvl1 c ON c.id = h.cre0e_okr_objective_and_keyresult_hierarchyid
+WHERE h.statecode = 0;
+
+WITH lvl2 AS (
+    SELECT cre0e_okr_objective_and_keyresult_hierarchyid AS id,
+           cre0e_keyresultlookup                          AS parent_id,
+           ROW_NUMBER() OVER (PARTITION BY cre0e_keyresultlookup
+                              ORDER BY createdon,
+                                       cre0e_okr_objective_and_keyresult_hierarchyid) AS rn
+    FROM dbo.cre0e_okr_objective_and_keyresult_hierarchy
+    WHERE statecode = 0
+      AND cre0e_objectivetype = 141160001
+      AND cre0e_keyresultlookup IS NOT NULL
+)
+UPDATE h
+SET h.cr446_sciezka = p.cr446_sciezka + RIGHT('000' + CAST(c.rn AS varchar(10)), 3),
+    h.cr446_poziom  = 2
+FROM dbo.cre0e_okr_objective_and_keyresult_hierarchy h
+INNER JOIN lvl2 c
+        ON c.id = h.cre0e_okr_objective_and_keyresult_hierarchyid
+INNER JOIN dbo.cre0e_okr_objective_and_keyresult_hierarchy p
+        ON p.cre0e_okr_objective_and_keyresult_hierarchyid = c.parent_id
+WHERE h.statecode = 0
+  AND p.cr446_sciezka IS NOT NULL;
+  
+WITH lvl3 AS (
+    SELECT cre0e_okr_objective_and_keyresult_hierarchyid AS id,
+           cre0e_keyresultlookup                          AS parent_id,
+           ROW_NUMBER() OVER (PARTITION BY cre0e_keyresultlookup
+                              ORDER BY createdon,
+                                       cre0e_okr_objective_and_keyresult_hierarchyid) AS rn
+    FROM dbo.cre0e_okr_objective_and_keyresult_hierarchy
+    WHERE statecode = 0
+      AND cre0e_objectivetype = 141160002
+      AND cre0e_keyresultlookup IS NOT NULL
+)
+UPDATE h
+SET h.cr446_sciezka = p.cr446_sciezka + RIGHT('000' + CAST(c.rn AS varchar(10)), 3),
+    h.cr446_poziom  = 3
+FROM dbo.cre0e_okr_objective_and_keyresult_hierarchy h
+INNER JOIN lvl3 c
+        ON c.id = h.cre0e_okr_objective_and_keyresult_hierarchyid
+INNER JOIN dbo.cre0e_okr_objective_and_keyresult_hierarchy p
+        ON p.cre0e_okr_objective_and_keyresult_hierarchyid = c.parent_id
+WHERE h.statecode = 0
+  AND p.cr446_sciezka IS NOT NULL;
