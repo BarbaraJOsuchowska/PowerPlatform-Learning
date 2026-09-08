@@ -1,0 +1,27 @@
+With(
+    {
+        _teamId: Text(ThisItem.Team.OKR_Teamwork_ID),
+        _assignMail: Lower(Trim(Coalesce(ThisItem.'Assign to (email)', ""))),
+        _creatorMail: Lower(Trim(Coalesce(ThisItem.'Created By'.'Primary Email', "")))
+    },
+    With(
+        {
+            _teamRec: LookUp(colTeamLookup, Text(cr446_okr_teamworkid) = _teamId),
+            _memberRec: LookUp(colTeamMemberLookup, Text(cr446_okr_teamworkid) = _teamId)
+        },
+        "varMe: [" & varMe & "]" & Char(10) &
+        "_teamId: [" & _teamId & "]" & Char(10) &
+        "_assignMail: [" & _assignMail & "]" & Char(10) &
+        "_creatorMail: [" & _creatorMail & "]" & Char(10) &
+        "---" & Char(10) &
+        "isManagerOrAdmin: " & Text(!IsBlank(_teamRec)) & Char(10) &
+        "  -> trafiony zespol: [" & Coalesce(_teamRec.cr446_teamname, "(brak)") & "]" & Char(10) &
+        "isCreator: " & Text(!IsBlank(_creatorMail) && _creatorMail = varMe) & Char(10) &
+        "isAssignedToMe: " & Text(!IsBlank(_assignMail) && _assignMail = varMe) & Char(10) &
+        "isMember: " & Text(!IsBlank(_memberRec)) & Char(10) &
+        "---" & Char(10) &
+        "colTeamLookup wierszy: " & CountRows(colTeamLookup) & Char(10) &
+        "colTeamMemberLookup wierszy: " & CountRows(colTeamMemberLookup) & Char(10) &
+        "GlobalReaderPermission: " & Text(GlobalReaderPermission)
+    )
+)
