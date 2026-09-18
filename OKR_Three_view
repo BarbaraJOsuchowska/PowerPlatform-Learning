@@ -1,0 +1,386 @@
+Screens:
+  Tree_view:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+      OnVisible: =ClearCollect(colGaleryView,AddColumns(OKR_Objective_and_Keyresult_hierarchy, Visible,true))
+    Children:
+      - ScreenContainer6_1:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - HeaderContainer6_2:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingTop: =8
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                Children:
+                  - Comp_ZF_Header_2:
+                      Control: CanvasComponent
+                      ComponentName: Comp_ZF_Header
+                      Properties:
+                        Color_Text: =ColorValue("#0070B4")
+                        Height: '=Parent.Height '
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        Text_Text: ="OKR Power App"
+                        Width: |
+                          =Parent.Width
+            - HeaderContainer6_3:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =5
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  X: =40
+                  Y: =40
+                Children:
+                  - comp_button_header_1:
+                      Control: CanvasComponent
+                      ComponentName: comp_button_header
+                      Properties:
+                        ComponentWidth: =100
+                        FillPortions: =1
+                        Height: =60
+                        LayoutMinWidth: =Parent.Width
+                        Width: =1300
+            - MainContainer6_1:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =10
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  LayoutWrap: =true
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                Children:
+                  - Container8_1:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                        X: =40
+                        Y: =40
+                      Children:
+                        - Gallery2_1:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              BorderColor: =RGBA(0, 0, 0, 0)
+                              BorderStyle: =BorderStyle.None
+                              Height: =652
+                              Items: =Sort( Filter( colGaleryView,Visible),Path)
+                              TemplateFill: '=RGBA(260,260,260,1) '
+                              TemplateSize: =83
+                              Width: =744
+                              X: =40
+                              Y: =40
+                            Children:
+                              - Container5_1:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: ManualLayout
+                                  Properties:
+                                    Fill: |
+                                      =Switch(
+                                          Len(ThisItem.Path),
+                                          1, RGBA(243,243,243,1),
+                                          2, RGBA(235,240,255,1),
+                                          3, RGBA(215,226,255,1),
+                                          4, RGBA(200,215,250,1),
+                                          RGBA(188,205,240,1)
+                                      )
+                                    Height: =Parent.TemplateHeight
+                                    PaddingBottom: '=10  '
+                                    PaddingTop: =10
+                                    Width: =Parent.Width-btnDown_1.X-20
+                                    X: =btnDown_1.X
+                                  Children:
+                                    - txt_targetValue_1:
+                                        Control: Text@0.0.51
+                                        Properties:
+                                          Align: ='TextCanvas.Align'.End
+                                          Height: =20
+                                          Text: |
+                                            ="Target value: " &
+                                            ThisItem.'Target Value' &
+                                            Switch(
+                                                Text(ThisItem.'Unit of measurement'),
+                                                "Percentage", " %",
+                                                "Currency", " €",
+                                                ""
+                                            )
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Progress2_6.Width/2-10
+                                          X: =Progress2_6.Width-Self.Width+10
+                                          Y: =Progress2_6.Height+Self.Height
+                                    - txt_baseValue_1:
+                                        Control: Text@0.0.51
+                                        Properties:
+                                          Height: =20
+                                          Text: |
+                                            ="Base value: " &
+                                            ThisItem.'Base Value' &
+                                            Switch(
+                                                Text(ThisItem.'Unit of measurement'),
+                                                "Percentage", " %",
+                                                "Currency", " €",
+                                                ""
+                                            )
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Progress2_6.Width/2-10
+                                          X: =Progress2_6.X
+                                          Y: =Progress2_6.Height+Self.Height
+                                    - Progress2_6:
+                                        Control: Progress@1.1.34
+                                        Properties:
+                                          Height: =28
+                                          ProgressColor: =If(Self.Value >99, 'Progress.ProgressColor'.Success,'Progress.ProgressColor'.Warning)
+                                          Thickness: ='Progress.Thickness'.Large
+                                          Value: |-
+                                            =If(
+                                                IsBlank(ThisItem.'Target Value') || ThisItem.'Target Value' = 0,
+                                                0,     // return 0 when target is invalid
+                                                (ThisItem.RollupSUMKeyResoult / ThisItem.'Target Value') * 100
+                                            )
+                                          Width: =(Parent.Width - 30)/3
+                                          X: =14
+                                          Y: =30
+                                    - lbl_KeyResult_1:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(0, 0, 0, 0)
+                                          BorderStyle: =BorderStyle.None
+                                          BorderThickness: =2
+                                          Color: =RGBA(50, 49, 48, 1)
+                                          DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                          DisabledColor: =RGBA(161, 159, 157, 1)
+                                          FocusedBorderThickness: =4
+                                          Font: =Font.'Segoe UI'
+                                          Height: =30
+                                          OnSelect: =
+                                          Text: =ThisItem.'Key Result'
+                                          Width: =Parent.Width-btnDown_1.Width-20
+                                          X: =btnUp_1.Width + ThisItem.Level*30
+                                    - btnUp_1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                          Height: =30
+                                          Icon: ="ChevronUp"
+                                          Layout: ='ButtonCanvas.Layout'.IconOnly
+                                          OnSelect: |-
+                                            =UpdateIf(colGaleryView, Path <> ThisItem.Path && StartsWith( Path, ThisItem.Path),{Visible: false})
+                                          Visible: |
+                                            =CountRows(
+                                                Filter(
+                                                    colGaleryView,
+                                                    StartsWith(Path, ThisItem.Path)
+                                                    && Len(Path) = Len(ThisItem.Path)+1
+                                                    && Visible = true
+                                                )
+                                            ) > 0
+                                          Width: =53
+                                          X: =ThisItem.Level*25
+                                    - btnDown_1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                          Height: =30
+                                          Icon: ="ChevronDown"
+                                          Layout: ='ButtonCanvas.Layout'.IconOnly
+                                          OnSelect: |
+                                            =UpdateIf(colGaleryView, Path <> ThisItem.Path && StartsWith( Path, ThisItem.Path),{Visible: true});
+
+
+                                            UpdateIf(
+                                                colGaleryView,
+                                                Path <> ThisItem.Path &&
+                                                StartsWith(Path, ThisItem.Path) &&
+                                                Len(Path) = Len(ThisItem.Path) + 1,
+                                                { Visible: true }
+                                            )
+                                          Visible: |
+                                            =CountRows(
+                                                Filter(
+                                                    colGaleryView,
+                                                    StartsWith(Path, ThisItem.Path)
+                                                    && Len(Path) = Len(ThisItem.Path)+1
+                                                    && Visible = false
+                                                )
+                                            ) > 0
+                                          Width: =53
+                                          X: =ThisItem.Level*25
+                                    - HtmlText2:
+                                        Control: HtmlViewer@2.1.0
+                                        Properties:
+                                          DisabledBorderColor: =RGBA(161, 159, 157, 1)
+                                          Font: =Font.'Segoe UI'
+                                          Height: =Progress2_6.Height*1.2
+                                          HtmlText: |-
+                                            ="Current value: <b>" & 
+                                            Switch(
+                                                Text(ThisItem.'Unit of measurement'),
+                                                "Number", ThisItem.RollupSUMKeyResoult,
+                                                "Currency", ThisItem.RollupSUMKeyResoult,
+                                                "Percentage", ThisItem.RollupAVGKeyResoult,
+                                                Blank()
+                                            ) &
+                                            Switch(
+                                                Text(ThisItem.'Unit of measurement'),
+                                                "Percentage", " %",
+                                                "Currency", " €",
+                                                ""
+                                            )
+                                          Size: =12
+                                          X: =Progress2_6.X+Progress2_6.Width+10
+                                          Y: =Progress2_6.Y
+                                    - ButtonCanvas3_5:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          FontSize: =12
+                                          Height: =28
+                                          Icon: ="Edit"
+                                          OnSelect: |-
+                                            =Set(Key_detailedItem,ThisItem);
+                                            Navigate(Edit_Key,ScreenTransition.Fade);
+                                          Text: ="Edit element"
+                                          Width: =155
+                                          X: =ButtonView_SubTeam_5.X-Self.Width-20
+                                          Y: =30
+                                    - ButtonView_SubTeam_5:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          Height: =28
+                                          Icon: |
+                                            =If(
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.Child,
+                                                    "Send",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Parent',
+                                                    "ChevronDown",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Root',
+                                                    "ChevronDown",
+                                                Icon.Warning
+                                            )
+                                          OnSelect: |-
+                                            =Set(Key_detailedItem,LookUp(OKR_Objective_and_Keyresult_hierarchy,'OKR_Objective_and_Keyresult_hierarchy (cre0e_okr_objective_and_keyresult_hierarchyid)' = ThisItem.'OKR_Objective_and_Keyresult_hierarchy (cre0e_okr_objective_and_keyresult_hierarchyid)'));
+                                            Navigate(Key_Result_Full_View,ScreenTransition.Fade);
+                                          Text: |+
+                                            =If(
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.Child,
+                                                    "Cascade",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Parent',
+                                                    "New Key Result",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Root',
+                                                    "New Key Result",
+                                                "Objective Type Not Found"
+                                            )
+
+                                          Width: =ButtonCanvas3_5.Width
+                                          X: =Button_View_N_5.X - Self.Width - 20
+                                          Y: =30
+                                    - Button_View_N_5:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          DisplayMode: |
+                                            =If(
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Parent' || ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Root',
+                                                    DisplayMode.Disabled,
+                                                    DisplayMode.Edit
+                                            )
+                                          Height: =28
+                                          Icon: |
+                                            =If(
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.Child,
+                                                    "Eye",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Parent',
+                                                    "ChevronDown",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Root',
+                                                    "ChevronDown",
+                                                    "Warning"
+                                            )
+                                          OnSelect: |-
+                                            =Set(Key_for_Comment_detailedItem,ThisItem);
+                                            Navigate(Comment_edit,ScreenTransition.Fade);
+                                          Text: |-
+                                            =If(
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.Child,
+                                                    "Comments",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Parent',
+                                                    "Cascaded",
+                                                ThisItem.'Objective Type' = 'Objective Type (OKR_Objective_and_Keyresult_hierarchy)'.'Root',
+                                                    "Cascaded",
+                                                    "Unknown"
+                                            )
+                                          Width: =ButtonCanvas3_5.Width
+                                          X: =Parent.Width-Self.Width-20
+                                          Y: =30
+            - FooterContainer2_1:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
